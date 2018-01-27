@@ -1,67 +1,50 @@
-#define CheckPoint:%0(%1) \
-	forward CheckPoint_%0(%1); public CheckPoint_%0(%1)
+#include <map>
 
 #define CreateCheckPoint(%0,%1,%2) \
-	CheckPoint_Create(%0, #%1, %2)
+	CreateEasyCP(%0, #%1, %2)
 
-static stock
-	c_cp_func[MAX_PLAYERS][32 char]
-;
+#define CheckPoint:%0(%1) \
+	forward Checkpoint_%0(%1); public Checkpoint_%0(%1)	
 
+#define EASY_CP_FNAME_LEN   21
 
-stock CheckPoint_Created(playerid)
-	return (GetPVarInt(playerid, "CHECKPOINT_CREATED"));
+// Easy checkpoint functions
+static Map:easyCPFunctions;
 
-stock CheckPoint_Delete(playerid)
+// Create easy checkpoint
+stock CreateEasyCP(playerid, const fname[], Float:x, Float:y, Float:z, Float:size, Float:visibledistance = STREAMER_CP_SD)
 {
-	DeletePVar(playerid, "CHECKPOINT_CREATED");
-	c_cp_func[playerid]{0} = 0;
-
-	DisablePlayerCheckpoint(playerid);
-	return 0;
+    new ret = CreateDynamicCP(Float:x, Float:y, Float:z, Float:size, .playerid = playerid, .streamdistance = visibledistance);
+    new fn[EASY_CP_FNAME_LEN + 11] = "Checkpoint_";
+    strcat(fn, fname);
+    MAP_insert_val_str(easyCPFunctions, ret, fn);
+    return ret;
 }
 
-stock CheckPoint_Create(playerid, function[], Float:x, Float:y, Float:z, Float:size)
+// Destroy easy checkpoint
+stock DestroyEasyCP(checkpointid)
 {
-	if(CheckPoint_Created(playerid))
-	{
-		CheckPoint_Delete(playerid);
-	}	
-	SetPlayerCheckpoint(playerid, x, y, z, size);
-	SetPVarInt(playerid, "CHECKPOINT_CREATED", 1);
-	strpack(c_cp_func[playerid], function);
-	return 1;
+    if (MAP_contains_val(easyCPFunctions, checkpointid))
+    {
+        MAP_remove_val(easyCPFunctions, checkpointid);
+    }
+    return DestroyDynamicCP(checkpointid);
 }
 
-public OnPlayerEnterCheckpoint(playerid)
+// On player enter dynamic checkpoint
+public OnPlayerEnterDynamicCP(playerid, checkpointid)
 {
-	if((c_cp_func[playerid]{0}))
-	{
-		new 
-			func[40]
-		;
-		
-		strcat(func, "CheckPoint_");
-		strcat(func, c_cp_func[playerid]);
-		
-		CheckPoint_Delete(playerid);
-
-		CallLocalFunction(func, "d", playerid);
-	}
-	#if defined EasyCP_OnPlayerEnterCheckpoint
-		EasyCP_OnPlayerEnterCheckpoint(playerid);
-	#endif
-	return 0;	
+    if (MAP_contains_val(easyCPFunctions, checkpointid))
+    {
+        new fname[EASY_CP_FNAME_LEN + 11];
+        MAP_get_val_arr(easyCPFunctions, checkpointid, fname);
+        CallLocalFunction(fname, "dd", playerid, checkpointid);
+    }
+    return 0;    
 }
-
-#if defined _ALS_OnPlayerEnterCheckpoint
-	#undef OnPlayerEnterCheckpoint
+#if defined _ALS_OnPlayerEnterDynamicCP
+    #undef OnPlayerEnterDynamicCP
 #else
-	#define _ALS_OnPlayerEnterCheckpoint
+    #define _ALS_OnPlayerEnterDynamicCP
 #endif
-
-#define OnPlayerEnterCheckpoint EasyCP_OnPlayerEnterCheckpoint
-
-#if defined EasyCP_OnPlayerEnterCheckpoint
-	forward EasyCP_OnPlayerEnterCheckpoint(playerid);
-#endif
+#define OnPlayerEnterDynamicCP EasyCP_OnPlayerEnterDynamicCP
