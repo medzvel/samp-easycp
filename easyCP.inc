@@ -1,4 +1,3 @@
-#include <streamer>
 #include <map>
 
 #define CreateCheckPoint(%0,%1,%2) \
@@ -32,19 +31,14 @@ stock ShowCheckPoint(playerid, checkpointid)
 	Streamer_RemoveArrayData(STREAMER_TYPE_CP, checkpointid, E_STREAMER_PLAYER_ID, playerid);
 }
 
-stock DestroyCheckPoint(checkpointid)
-{
-	DestroyDynamicCP(checkpointid);
-}
 
 // Destroy easy checkpoint
-stock DestroyEasyCP(checkpointid)
+stock DestroyCheckPoint(checkpointid)
 {
-    if (MAP_contains_val(easyCPFunctions, checkpointid))
-    {
-        MAP_remove_val(easyCPFunctions, checkpointid);
-    }
-    return DestroyDynamicCP(checkpointid);
+    if (MAP_remove_val(easyCPFunctions, checkpointid))
+        return DestroyDynamicCP(checkpointid);
+
+    return 0;
 }
 
 // On player enter dynamic checkpoint
