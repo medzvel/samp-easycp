@@ -1,3 +1,4 @@
+#include <streamer>
 #include <map>
 
 #define CreateCheckPoint(%0,%1,%2) \
