@@ -21,6 +21,21 @@ stock CreateEasyCP(playerid, const fname[], Float:x, Float:y, Float:z, Float:siz
     return ret;
 }
 
+stock HideCheckPoint(playerid, checkpointid)
+{
+	Streamer_RemoveArrayData(STREAMER_TYPE_CP, checkpointid, E_STREAMER_PLAYER_ID, playerid);
+}
+
+stock ShowCheckPoint(playerid, checkpointid)
+{
+	Streamer_RemoveArrayData(STREAMER_TYPE_CP, checkpointid, E_STREAMER_PLAYER_ID, playerid);
+}
+
+stock DestroyCheckPoint(checkpointid)
+{
+	DestroyDynamicCP(checkpointid);
+}
+
 // Destroy easy checkpoint
 stock DestroyEasyCP(checkpointid)
 {
