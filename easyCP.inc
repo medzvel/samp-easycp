@@ -14,21 +14,25 @@ static Map:easyCPFunctions;
 // Create easy checkpoint
 stock CreateEasyCP(playerid, const fname[], Float:x, Float:y, Float:z, Float:size, Float:visibledistance = STREAMER_CP_SD)
 {
+	if(sizeof(fname) > 11) return printf("[easyCP Error] function name can't be more then 21 character.");
     new ret = CreateDynamicCP(Float:x, Float:y, Float:z, Float:size, .playerid = playerid, .streamdistance = visibledistance);
     new fn[EASY_CP_FNAME_LEN + 11] = "Checkpoint_";
     strcat(fn, fname);
     MAP_insert_val_str(easyCPFunctions, ret, fn);
+    Streamer_Update(playerid, STREAMER_TYPE_CHECKPOINT);
     return ret;
 }
 
 stock HideCheckPoint(playerid, checkpointid)
 {
 	Streamer_RemoveArrayData(STREAMER_TYPE_CP, checkpointid, E_STREAMER_PLAYER_ID, playerid);
+	Streamer_Update(playerid, STREAMER_TYPE_CHECKPOINT);
 }
 
 stock ShowCheckPoint(playerid, checkpointid)
 {
-	Streamer_RemoveArrayData(STREAMER_TYPE_CP, checkpointid, E_STREAMER_PLAYER_ID, playerid);
+	Streamer_AppendArrayData(STREAMER_TYPE_CP, checkpointid, E_STREAMER_PLAYER_ID, playerid);
+	Streamer_Update(playerid, STREAMER_TYPE_CHECKPOINT);
 }
 
 
