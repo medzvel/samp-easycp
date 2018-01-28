@@ -1,0 +1,11 @@
+{
+	"user": "medzvel",
+	"repo": "samp-easycp",
+	"entry": "test.pwn",
+	"output": "test.amx",
+	"dependencies": [
+		"samp-incognito/samp-streamer-plugin",
+		"BigETI/pawn-memory",
+		"BigETI/pawn-map"
+	]
+}
