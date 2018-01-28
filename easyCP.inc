@@ -6,7 +6,7 @@
 #define CheckPoint:%0(%1) \
 	forward Checkpoint_%0(%1); public Checkpoint_%0(%1)	
 
-#define EASY_CP_FNAME_LEN   21
+#define EASY_CP_FNAME_LEN   22
 
 // Easy checkpoint functions
 static Map:easyCPFunctions;
