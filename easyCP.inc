@@ -14,7 +14,7 @@ static Map:easyCPFunctions;
 // Create easy checkpoint
 stock CreateEasyCP(playerid, const fname[], Float:x, Float:y, Float:z, Float:size, Float:visibledistance = STREAMER_CP_SD)
 {
-	if(sizeof(fname) > EASY_CP_FNAME_LEN) return printf("[easyCP Error] function name can't be more then 21 character.");
+	if(strlen(fname) > EASY_CP_FNAME_LEN) return print("[easyCP Error] function name can't be more than "#EASY_CP_FNAME_LEN" characters.");
     new ret = CreateDynamicCP(Float:x, Float:y, Float:z, Float:size, .playerid = playerid, .streamdistance = visibledistance);
     new fn[EASY_CP_FNAME_LEN + 11] = "Checkpoint_";
     strcat(fn, fname);
