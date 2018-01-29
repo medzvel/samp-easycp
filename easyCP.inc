@@ -52,7 +52,7 @@ stock DestroyCheckPoint(checkpointid)
 }
 
 //Create easy checkpoint Race CP-s.
-stock CreateEasyRaceCP(playerid, fname[], type, Float:x, Float:y, Float:z, Float:nextx, Float:nexty, Float:nextz, Float:size, Float:visibledistance = STREAMER_CP_SD)
+stock CreateEasyRaceCP(playerid, fname[], type, Float:x, Float:y, Float:z, Float:nextx, Float:nexty, Float:nextz, Float:size, Float:visibledistance = STREAMER_RACE_CP_SD)
 {
     if(strlen(fname) > EASY_CP_FNAME_LEN) return print("[easyCP Error] function name can't be more than "#EASY_CP_FNAME_LEN" characters.");
     new ret = CreateDynamicRaceCP(type, x, y, z, nextx, nexty, nextz, size, .playerid = playerid, .streamdistance = visibledistance);
