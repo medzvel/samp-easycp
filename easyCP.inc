@@ -1,5 +1,5 @@
+#include <streamer>
 #include <map>
-#include <YSI\y_inline>
 
 #define CreateCheckPoint(%0,%1,%2) \
 	CreateEasyCP(%0, #%1, %2)
