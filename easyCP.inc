@@ -102,6 +102,9 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid)
     #define _ALS_OnPlayerEnterDynamicCP
 #endif
 #define OnPlayerEnterDynamicCP EasyCP_OnPlayerEnterDynamicCP
+#if defined EasyCP_OnPlayerEnterDynamicCP
+    forward EasyCP_OnPlayerEnterDynamicCP(playerid, checkpointid);
+#endif
 
 public OnPlayerEnterDynamicRaceCP(playerid, checkpointid)
 {
@@ -119,4 +122,7 @@ public OnPlayerEnterDynamicRaceCP(playerid, checkpointid)
 #else
     #define _ALS_OnPlayerEnterDynamicRaceCP
 #endif
-#define OnPlayerEnterDynamicRaceCP EasyCP_OnPlayerEnterDynamicRaceCP
+#define OnPlayerEnterDynamicRaceCP EasyCP_OnPlayerEnterRace
+#if defined EasyCP_OnPlayerEnterRace
+    forward EasyCP_OnPlayerEnterRace(playerid, checkpointid);
+#endif
